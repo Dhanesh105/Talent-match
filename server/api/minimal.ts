@@ -1,7 +1,26 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 
 const app = express();
+
+// Database connection function
+async function connectDB() {
+  try {
+    if (mongoose.connection.readyState === 0) {
+      const mongoUri = process.env.MONGODB_URI;
+      if (!mongoUri) {
+        throw new Error('MONGODB_URI environment variable is not set');
+      }
+      await mongoose.connect(mongoUri);
+      console.log('MongoDB Connected');
+    }
+    return true;
+  } catch (error) {
+    console.error('MongoDB Connection Error:', error);
+    return false;
+  }
+}
 
 // CORS configuration
 app.use(cors({
@@ -87,12 +106,33 @@ app.get('/health', (_req: Request, res: Response) => {
   }
 });
 
-// Test route for user registration (without database)
-app.post('/api/users/register', (_req: Request, res: Response) => {
+// Database test route
+app.get('/api/db-test', async (_req: Request, res: Response) => {
   try {
+    const connected = await connectDB();
+    res.json({
+      message: 'Database test completed',
+      database_connected: connected,
+      connection_state: mongoose.connection.readyState,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: 'Database test failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Test route for user registration (with database)
+app.post('/api/users/register', async (_req: Request, res: Response) => {
+  try {
+    const dbConnected = await connectDB();
     res.json({
       message: 'Registration endpoint reached',
-      note: 'Database not connected yet',
+      database_connected: dbConnected,
+      note: 'Ready for user registration logic',
       timestamp: new Date().toISOString()
     });
   } catch (error) {
