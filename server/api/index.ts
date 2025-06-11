@@ -60,9 +60,16 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Database initialization middleware
+// Database initialization middleware (non-blocking)
 app.use(async (_req, _res, next) => {
-  await initializeDB();
+  try {
+    // Don't block requests if DB connection fails
+    initializeDB().catch(err => {
+      console.error('DB initialization failed:', err.message);
+    });
+  } catch (error) {
+    console.error('DB middleware error:', error);
+  }
   next();
 });
 
@@ -78,26 +85,60 @@ app.use('/api/dashboard', dashboardRoutes);
 
 // Root route
 app.get('/', (_req: Request, res: Response) => {
-  res.json({
-    message: 'Welcome to the AI-Powered Recruitment Tool API',
-    version: '1.0.0',
-    environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString()
-  });
+  try {
+    res.json({
+      message: 'Welcome to the AI-Powered Recruitment Tool API',
+      version: '1.0.0',
+      environment: process.env.NODE_ENV || 'development',
+      timestamp: new Date().toISOString(),
+      mongodb_uri_set: !!process.env.MONGODB_URI,
+      jwt_secret_set: !!process.env.JWT_SECRET
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: 'Root route failed',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 });
 
 // Basic API info route
 app.get('/api', (_req: Request, res: Response) => {
-  res.json({
-    message: 'Welcome to the AI-Powered Recruitment Tool API',
-    version: '1.0.0',
-    environment: process.env.NODE_ENV || 'development'
-  });
+  try {
+    res.json({
+      message: 'Welcome to the AI-Powered Recruitment Tool API',
+      version: '1.0.0',
+      environment: process.env.NODE_ENV || 'development',
+      timestamp: new Date().toISOString(),
+      status: 'API is working'
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: 'API route failed',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 });
 
 // Health check route
 app.get('/health', (_req: Request, res: Response) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  try {
+    res.json({
+      status: 'OK',
+      timestamp: new Date().toISOString(),
+      env: {
+        node_env: process.env.NODE_ENV,
+        mongodb_uri_set: !!process.env.MONGODB_URI,
+        jwt_secret_set: !!process.env.JWT_SECRET
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'ERROR',
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString()
+    });
+  }
 });
 
 // Test route to check database connection
