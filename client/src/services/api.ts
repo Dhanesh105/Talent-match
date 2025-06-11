@@ -6,14 +6,19 @@ const baseURL = import.meta.env.VITE_API_URL ||
     ? 'https://talent-match-backend.vercel.app/api'
     : 'http://localhost:5000/api');
 
-console.log('API Base URL:', baseURL);
-console.log('Environment:', import.meta.env.MODE);
+// Only log in development
+if (import.meta.env.DEV) {
+  console.log('API Base URL:', baseURL);
+  console.log('Environment:', import.meta.env.MODE);
+  console.log('App Name:', import.meta.env.VITE_APP_NAME);
+}
 
 const api = axios.create({
   baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 30000, // 30 seconds timeout
 });
 
 // Add request interceptor to add auth token
@@ -23,11 +28,17 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log('API Request:', config.method?.toUpperCase(), config.url);
+
+    // Only log in development
+    if (import.meta.env.DEV) {
+      console.log('API Request:', config.method?.toUpperCase(), config.url);
+    }
     return config;
   },
   (error) => {
-    console.error('API Request Error:', error);
+    if (import.meta.env.DEV) {
+      console.error('API Request Error:', error);
+    }
     return Promise.reject(error);
   }
 );
@@ -35,11 +46,15 @@ api.interceptors.request.use(
 // Add response interceptor for error handling
 api.interceptors.response.use(
   (response) => {
-    console.log('API Response:', response.status, response.config.url);
+    if (import.meta.env.DEV) {
+      console.log('API Response:', response.status, response.config.url);
+    }
     return response;
   },
   (error) => {
-    console.error('API Response Error:', error.response?.status, error.response?.data || error.message);
+    if (import.meta.env.DEV) {
+      console.error('API Response Error:', error.response?.status, error.response?.data || error.message);
+    }
     return Promise.reject(error);
   }
 );
