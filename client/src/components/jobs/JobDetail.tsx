@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { jobService, jobApplicationService } from '../../services/api';
 import { Job } from '../../types';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../App';
 import './JobDetail.css';
 import JobApplicationForm from './JobApplicationForm';
 

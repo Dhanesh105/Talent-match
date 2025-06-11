@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { jobService } from '../../services/api';
 import { Job } from '../../types';
 import { ApiError } from '../../types/error';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../App';
 import './RecruiterStyles.css';
 
 const RecruiterJobList: React.FC = () => {

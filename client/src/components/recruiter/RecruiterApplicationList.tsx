@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { jobApplicationService, jobService } from '../../services/api';
 import { JobApplication, Job } from '../../types';
 import { ApiError } from '../../types/error';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../App';
 import './RecruiterStyles.css';
 
 // Define the status type to match the backend expectations
