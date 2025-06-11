@@ -3,7 +3,7 @@ import axios from 'axios';
 // Create an axios instance with base URL and default headers
 const baseURL = import.meta.env.VITE_API_URL ||
   (import.meta.env.PROD
-    ? 'https://talent-match-backend.vercel.app/api'
+    ? 'https://tm-backend-pi.vercel.app/api'
     : 'http://localhost:5000/api');
 
 // Only log in development
