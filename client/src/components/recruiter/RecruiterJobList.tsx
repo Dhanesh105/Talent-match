@@ -121,11 +121,11 @@ const RecruiterJobList: React.FC = () => {
         </Link>
       </div>
       
-      {/* {error && (
+      {error && (
         <div className="error-container">
           <p>{error}</p>
         </div>
-      )} */}
+      )}
       
       {jobs.length === 0 ? (
         <div className="empty-container">

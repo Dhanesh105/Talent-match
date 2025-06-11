@@ -11,7 +11,7 @@ type ApplicationStatus = 'pending' | 'reviewed' | 'shortlisted' | 'hired' | 'rej
 
 const RecruiterApplicationList: React.FC = () => {
   const [applications, setApplications] = useState<JobApplication[]>([]);
-  const [jobs, setJobs] = useState<Record<string, Job>>({});
+  const [jobs] = useState<Record<string, Job>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { authState } = useAuth();
@@ -27,7 +27,7 @@ const RecruiterApplicationList: React.FC = () => {
         const applications = response.data || [];
         console.log("applications",response);
         // Fetch all jobs to have job details for reference
-        const jobsResponse = await jobService.getAllJobs();
+        await jobService.getAllJobs();
 //         const jobsList = Array.isArray(jobsResponse) 
 //           ? jobsResponse 
 //           : jobsResponse.data
@@ -117,11 +117,11 @@ const RecruiterApplicationList: React.FC = () => {
         <p>Review and manage applications for all your job postings</p>
       </div>
       
-      {/* {error && (
+      {error && (
         <div className="error-container">
           <p>{error}</p>
         </div>
-      )} */}
+      )}
       
       {applications.length === 0 ? (
         <div className="empty-container">
@@ -191,15 +191,15 @@ const RecruiterApplicationList: React.FC = () => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <div className="candidate-avatar" style={{ width: '36px', height: '36px', fontSize: '0.9rem' }}>
                           {getInitials(
-                            typeof application.candidateInfo === 'object' 
-                              ? application.candidateInfo.name || 'U N'
+                            typeof application.candidate === 'object'
+                              ? (application.candidate as any).name || 'U N'
                               : 'U N'
                           )}
                         </div>
                         <div>
                           <div style={{ fontWeight: '500' }}>
-                            {typeof application.candidateInfo === 'object' 
-                              ? application.candidateInfo.name 
+                            {typeof application.candidate === 'object'
+                              ? (application.candidate as any).name
                               : 'Unknown Candidate'}
                           </div>
                           <div style={{ fontSize: '0.85rem', color: 'var(--text-light)' }}>
