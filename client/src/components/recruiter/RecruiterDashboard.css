@@ -1,0 +1,257 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.dashboard-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 12px;
+}
+
+.dashboard-subtitle {
+  font-size: 16px;
+  color: #718096;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (min-width: 640px) {
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .metrics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.metric-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid #4169e1;
+}
+
+.metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.metric-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #718096;
+  margin-bottom: 12px;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.recent-applications-section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.view-all-link {
+  color: #4169e1;
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.view-all-link:hover {
+  color: #3451b2;
+  text-decoration: underline;
+}
+
+.applications-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.applications-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.applications-table th {
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  background-color: #f7fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.applications-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #4a5568;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.applications-table tr:last-child td {
+  border-bottom: none;
+}
+
+.applications-table tr:hover {
+  background-color: #f7fafc;
+}
+
+.candidate-name {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.candidate-email {
+  font-size: 13px;
+  color: #718096;
+}
+
+.status-pending {
+  color: #d97706;
+  background-color: #fef3c7;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-reviewed {
+  color: #3b82f6;
+  background-color: #dbeafe;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-interviewed {
+  color: #059669;
+  background-color: #d1fae5;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-rejected {
+  color: #dc2626;
+  background-color: #fee2e2;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.view-button {
+  padding: 6px 12px;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.view-button:hover {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+.posted-jobs-section {
+  margin-bottom: 40px;
+}
+
+.post-job-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #4169e1;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+}
+
+.post-job-button:hover {
+  background-color: #3451b2;
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+}
+
+.post-job-button svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+  font-size: 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.loading-message {
+  font-size: 18px;
+  color: #4a5568;
+}
+
+.error-container {
+  padding: 24px;
+  background-color: #fff5f5;
+  border: 1px solid #fc8181;
+  border-radius: 8px;
+  color: #c53030;
+  margin-bottom: 24px;
+}
