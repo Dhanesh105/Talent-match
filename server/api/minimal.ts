@@ -211,6 +211,66 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
   }
 });
 
+// Get user profile endpoint
+app.get('/api/users/profile', async (req: Request, res: Response) => {
+  try {
+    const dbConnected = await connectDB();
+    if (!dbConnected) {
+      return res.status(500).json({
+        message: 'Database connection failed'
+      });
+    }
+
+    // Get token from Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        message: 'No token provided'
+      });
+    }
+
+    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+
+    // Verify JWT token
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error('JWT_SECRET not configured');
+    }
+
+    const decoded = jwt.verify(token, jwtSecret) as any;
+
+    // Find user by ID
+    const user = await User.findById(decoded.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found'
+      });
+    }
+
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt
+      }
+    });
+
+  } catch (error) {
+    console.error('Profile error:', error);
+    if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({
+        message: 'Invalid token'
+      });
+    }
+    res.status(500).json({
+      message: 'Server error getting profile',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
 // User login endpoint
 app.post('/api/users/login', async (req: Request, res: Response) => {
   try {
