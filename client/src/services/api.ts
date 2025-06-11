@@ -3,7 +3,7 @@ import axios from 'axios';
 // Create an axios instance with base URL and default headers
 const api = axios.create({
   baseURL: import.meta.env.PROD
-    ? 'https://talent-match-backend-4v02cfw3a-dhanesh105s-projects.vercel.app/api'
+    ? 'https://talent-match-backend-ipyokkshx-dhanesh105s-projects.vercel.app/api'
     : 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
